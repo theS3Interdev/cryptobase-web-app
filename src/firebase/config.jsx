@@ -1,14 +1,16 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 /** firebase configuration object containing keys and identifiers */
 const firebaseConfig = {
-	apiKey: 'AIzaSyANr-JPGzQk_A5q5Bm2Jnyyl5Few7BzU7Q',
-	authDomain: 'crypotobase.firebaseapp.com',
-	projectId: 'crypotobase',
-	storageBucket: 'crypotobase.appspot.com',
-	messagingSenderId: '583574113384',
-	appId: '1:583574113384:web:ef7baf03797cb068013fdd',
-	measurementId: 'G-JR8DHY6ZPH',
+	apiKey: 'AIzaSyDBFpfcrBTjdYk0s1GTFiunmhoaQuhaNfw',
+	authDomain: 'cryptobase-project.firebaseapp.com',
+	projectId: 'cryptobase-project',
+	storageBucket: 'cryptobase-project.appspot.com',
+	messagingSenderId: '891228626384',
+	appId: '1:891228626384:web:d8cb19da9f7d611f35add5',
+	measurementId: 'G-BHHYHDHZ70',
 };
 
 /** initialize firebase */
