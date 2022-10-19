@@ -5,9 +5,8 @@
 @tailwind utilities;
 
 @layer base {
-	body,
-	html {
-		@apply bg-primary font-ubuntu text-primary antialiased;
+	body {
+		@apply font-ubuntu  antialiased;
 	}
 }
 
@@ -15,6 +14,10 @@
 	.rounded-div {
 		@apply mx-auto w-full max-w-6xl rounded-2xl border border-secondary bg-primary px-2 shadow-xl;
 	}
+}
+
+:root {
+	@apply bg-primary text-primary;
 }
 
 .dark {
