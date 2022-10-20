@@ -1,5 +1,5 @@
 import { AiOutlineInstagram } from 'react-icons/ai';
-import { FaFacebookF, FaGithub, FaTiktok, FaTwitter } from 'react-icons/fa';
+import { FaFacebookF, FaGithub, FaTwitter } from 'react-icons/fa';
 import ThemeToggle from './theme-toggle';
 
 const Footer = () => {
@@ -51,10 +51,9 @@ const Footer = () => {
 							</div>
 
 							<div className="flex justify-between py-4 text-accent">
-								<AiOutlineInstagram />
-								<FaTiktok />
-								<FaTwitter />
 								<FaFacebookF />
+								<FaTwitter />
+								<AiOutlineInstagram />
 								<FaGithub />
 							</div>
 						</div>

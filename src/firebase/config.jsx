@@ -1,6 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import {
+	getAuth,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
+	createUserWithEmailAndPassword,
+	signOut,
+} from 'firebase/auth';
+import { getFirestore, setDoc, doc } from 'firebase/firestore';
 
 /** firebase configuration object containing keys and identifiers */
 const firebaseConfig = {
@@ -21,4 +27,13 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 /** export services */
-export { auth, db };
+export {
+	auth,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
+	createUserWithEmailAndPassword,
+	signOut,
+	db,
+	setDoc,
+	doc,
+};
