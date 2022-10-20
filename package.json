@@ -1,7 +1,7 @@
 {
 	"name": "cryptobase",
 	"private": true,
-	"version": "0.13.7",
+	"version": "0.14.7",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
