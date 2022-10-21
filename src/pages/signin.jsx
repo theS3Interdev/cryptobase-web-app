@@ -1,14 +1,22 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AiFillLock, AiOutlineMail } from 'react-icons/ai';
+
+import { useSignin } from '../hooks/use-signin';
 
 const Signin = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const { signin, isPending, error } = useSignin();
 
-	const navigate = useNavigate();
+	const handleSubmit = (e) => {
+		e.preventDefault();
 
-	const handleSubmit = () => {};
+		signin(email, password);
+
+		setEmail('');
+		setPassword('');
+	};
 
 	return (
 		<div>
@@ -20,9 +28,11 @@ const Signin = () => {
 						<label>Email</label>
 						<div className="relative my-2 w-full rounded-2xl shadow-xl">
 							<input
-								onChange={(e) => setEmail(e.target.value)}
-								className="w-full rounded-2xl border border-input bg-primary p-2"
 								type="email"
+								onChange={(e) => setEmail(e.target.value)}
+								value={email}
+								required
+								className="w-full rounded-2xl border border-input bg-primary p-2"
 							/>
 							<AiOutlineMail className="absolute right-2 top-3 text-gray-500" />
 						</div>
@@ -32,17 +42,29 @@ const Signin = () => {
 						<label>Password</label>
 						<div className="relative my-2 w-full rounded-2xl shadow-xl">
 							<input
-								onChange={(e) => setPassword(e.target.value)}
-								className="w-full rounded-2xl border border-input bg-primary p-2"
 								type="password"
+								onChange={(e) => setPassword(e.target.value)}
+								value={password}
+								required
+								className="w-full rounded-2xl border border-input bg-primary p-2"
 							/>
 							<AiFillLock className="absolute right-2 top-3 text-gray-500" />
 						</div>
 					</div>
 
-					<button className="my-2 w-full rounded-2xl bg-button p-3 text-btnText shadow-xl">
-						Sign in
-					</button>
+					{!isPending && (
+						<button className="my-2 w-full rounded-2xl bg-button p-3 text-btnText shadow-xl">
+							Sign in
+						</button>
+					)}
+
+					{isPending && (
+						<button className="my-2 w-full rounded-2xl bg-button p-3 text-btnText shadow-xl">
+							Signing in...
+						</button>
+					)}
+
+					{error && <p className="my-2 bg-red-300 p-3">{error}</p>}
 				</form>
 
 				<p className="my-4">

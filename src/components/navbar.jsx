@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+
+import { useAuthContext } from '../hooks/use-auth-context';
+import { useSignout } from '../hooks/use-signout';
 import ThemeToggle from './theme-toggle';
 
 const Navbar = () => {
 	const [nav, setNav] = useState(false);
+	const { signout } = useSignout();
+	const { user } = useAuthContext();
 
 	const handleNav = () => {
 		setNav(!nav);
@@ -26,18 +31,39 @@ const Navbar = () => {
 			{/** theme toggle end */}
 
 			{/** user signin/signup buttons start */}
-			<div className="hidden md:block">
-				<Link to="/signin" className="p-4 hover:text-accent">
-					Sign In
-				</Link>
+			{!user && (
+				<>
+					<div className="hidden md:block">
+						<Link to="/signin" className="p-4 hover:text-accent">
+							Sign In
+						</Link>
 
-				<Link
-					to="/signup"
-					className="ml-2 rounded-2xl bg-button px-5 py-2 text-btnText shadow-lg hover:shadow-2xl"
-				>
-					Sign Up
-				</Link>
-			</div>
+						<Link
+							to="/signup"
+							className="ml-2 rounded-2xl bg-button px-5 py-2 text-btnText shadow-lg hover:shadow-2xl"
+						>
+							Sign Up
+						</Link>
+					</div>
+				</>
+			)}
+
+			{user && (
+				<>
+					<div className="hidden md:block">
+						<Link to="/account" className="p-4 hover:text-accent">
+							Account
+						</Link>
+
+						<button
+							className="ml-2 rounded-2xl bg-button px-5 py-2 text-btnText shadow-lg hover:shadow-2xl"
+							onClick={signout}
+						>
+							Sign Out
+						</button>
+					</div>
+				</>
+			)}
 			{/** user signin/signup buttons end */}
 
 			{/** hamburger menu start */}
@@ -59,32 +85,57 @@ const Navbar = () => {
 						<Link to="/">Home</Link>
 					</li>
 
-					<li onClick={handleNav} className="border-b py-6">
-						<Link to="/account">Account</Link>
-					</li>
-
 					<li className="py-6">
 						<ThemeToggle />
 					</li>
 				</ul>
 
 				{/** user signin/signup buttons start */}
-				<div className="flex w-full flex-col p-4">
-					<Link to="/signin">
-						<button
-							onClick={handleNav}
-							className="my-2 w-full rounded-2xl border border-secondary bg-primary p-3 text-primary shadow-xl"
-						>
-							Sign In
-						</button>
-					</Link>
+				{!user && (
+					<>
+						<div className="flex w-full flex-col p-4">
+							<Link to="/signin">
+								<button
+									onClick={handleNav}
+									className="my-2 w-full rounded-2xl border border-secondary bg-primary p-3 text-primary shadow-xl"
+								>
+									Sign In
+								</button>
+							</Link>
 
-					<Link onClick={handleNav} to="/signup">
-						<button className="my-2 w-full rounded-2xl bg-button p-3 text-btnText shadow-xl">
-							Sign Up
-						</button>
-					</Link>
-				</div>
+							<Link onClick={handleNav} to="/signup">
+								<button className="my-2 w-full rounded-2xl bg-button p-3 text-btnText shadow-xl">
+									Sign Up
+								</button>
+							</Link>
+						</div>
+					</>
+				)}
+
+				{user && (
+					<>
+						<div className="flex w-full flex-col p-4">
+							<Link to="/account">
+								<button
+									onClick={handleNav}
+									className="my-2 w-full rounded-2xl border border-secondary bg-primary p-3 text-primary shadow-xl"
+								>
+									Account
+								</button>
+							</Link>
+
+							<button
+								className="my-2 w-full rounded-2xl bg-button p-3 text-btnText shadow-xl"
+								onClick={() => {
+									signout();
+									handleNav();
+								}}
+							>
+								Sign Out
+							</button>
+						</div>
+					</>
+				)}
 				{/** user signin/signup buttons end */}
 			</div>
 			{/** mobile menu end */}
