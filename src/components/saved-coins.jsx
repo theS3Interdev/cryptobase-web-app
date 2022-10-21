@@ -2,14 +2,32 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 
+import { useAuthContext } from '../hooks/use-auth-context';
+import { db, doc, onSnapshot, updateDoc } from '../firebase/config';
+
 const SavedCoins = () => {
+	const { user } = useAuthContext();
 	const [coins, setCoins] = useState([]);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		onSnapshot(doc(db, 'users', `${user?.uid}`), (doc) => {
+			setCoins(doc.data()?.watchList);
+		});
+	}, [user?.id]);
 
-	const coinPath = '';
+	const coinPath = doc(db, 'users', `${user?.uid}`);
 
-	const deleteCoin = async () => {};
+	const deleteCoin = async (coinId) => {
+		try {
+			const result = coins.filter((item) => item.id !== coinId);
+
+			await updateDoc(coinPath, {
+				watchList: result,
+			});
+		} catch (e) {
+			console.log(e.message);
+		}
+	};
 
 	return (
 		<div>

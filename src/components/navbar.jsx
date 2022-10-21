@@ -8,7 +8,7 @@ import ThemeToggle from './theme-toggle';
 
 const Navbar = () => {
 	const [nav, setNav] = useState(false);
-	const { signout, isPending } = useSignout();
+	const { signout } = useSignout();
 	const { user } = useAuthContext();
 
 	const handleNav = () => {

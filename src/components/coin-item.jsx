@@ -3,23 +3,32 @@ import { Link } from 'react-router-dom';
 import { Sparklines, SparklinesLine } from 'react-sparklines';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
+import { useAuthContext } from '../hooks/use-auth-context';
+import { useFirestore } from '../hooks/use-firestore';
+import { arrayUnion, Timestamp } from '../firebase/config';
+
 const CoinItem = ({ coin }) => {
+	const { user } = useAuthContext();
+	const { updateDocument, response } = useFirestore('users');
 	const [savedCoin, setSavedCoin] = useState(false);
 
 	const saveCoin = async () => {
-		if (user?.email) {
+		if (user) {
 			setSavedCoin(true);
-			await updateDoc(coinPath, {
-				watchList: arrayUnion({
-					id: coin.id,
-					name: coin.name,
-					image: coin.image,
-					rank: coin.market_cap_rank,
-					symbol: coin.symbol,
-				}),
-			});
+
+			const coinToAdd = {
+				id: coin.id,
+				name: coin.name,
+				image: coin.image,
+				rank: coin.market_cap_rank,
+				symbol: coin.symbol,
+				createdAt: Timestamp.fromDate(new Date()),
+			};
+
+			/** add coin to the watch list */
+			await updateDocument(user.uid, { watchList: arrayUnion(coinToAdd) });
 		} else {
-			alert('Please sign in to save a coin to your watch list');
+			alert('Sorry, but you will need to sign in to save a coin to your watch list.');
 		}
 	};
 
