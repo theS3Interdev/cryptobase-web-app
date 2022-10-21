@@ -1,10 +1,8 @@
-import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../hooks/use-auth-context';
 import SavedCoins from '../components/saved-coins';
 
 const Account = () => {
-	const navigate = useNavigate();
-
-	const handleSignOut = () => {};
+	const { user } = useAuthContext();
 
 	return (
 		<div className="mx-auto max-w-[1140px]">
@@ -13,18 +11,11 @@ const Account = () => {
 					<h1 className="text-2xl font-bold">Account</h1>
 
 					<div>
-						<p>Welcome, User</p>
+						<p>Welcome, {user?.email}</p>
 					</div>
 				</div>
 
-				<div>
-					<button
-						onClick={handleSignOut}
-						className="rounded-2xl border px-6 py-2 shadow-lg hover:shadow-2xl"
-					>
-						Sign Out
-					</button>
-				</div>
+				<div></div>
 			</div>
 
 			<div className="justfiy-between rounded-div my-12 flex items-center py-8">
