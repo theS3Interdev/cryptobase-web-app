@@ -1,8 +1,7 @@
-name: Build and Deploy to Cloud Firestore and Firebase Hosting
+name: Build and Deploy to GitHub Pages
 on:
-  pull_request:
-    branches:
-      - main
+  push:
+    branches: main
 
 jobs:
   build:
@@ -11,7 +10,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
 
       - name: Install Dependencies
         run: npm install
@@ -19,30 +21,31 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@v2
+      - name: Upload Production Artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          name: dist
-          path: dist
+          path: "./dist/"
 
   deploy:
-    name: Deploy to Firebase Hosting
+    name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
-      - name: Download Artifact
+    environment:
+      name: github-pages
+      url: https://cryptobase.s3.co.ke
+
+    steps:
+      - name: Download Production Artifact
         uses: actions/download-artifact@v2
         with:
-          name: dist
-          path: dist
+          path: "./dist/"
 
-      - name: Deploy to Cloud Firestore and to Firebase Hosting
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only firestore,hosting
-        env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
